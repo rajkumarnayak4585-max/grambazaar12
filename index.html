@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GramBazaar | Raj Kumar Nayak</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f5f8f3;color:#203126}
+header{background:#12472f;color:white;padding:16px 5%;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.logo{font-size:27px;font-weight:900}.logo span{color:#ffc35b}
+nav{display:flex;gap:16px;flex-wrap:wrap}
+nav a{color:white;text-decoration:none;font-size:14px}
+button{cursor:pointer;border:0;font-weight:bold;border-radius:9px;padding:11px 14px}
+.green{background:#176b45;color:white}
+.orange{background:#ffc35b;color:#263b2d}
+.hero{margin:24px auto;width:92%;max-width:1300px;min-height:300px;padding:38px;border-radius:20px;color:white;display:flex;align-items:center;background:linear-gradient(90deg,#103c29ed,#103c2950),url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1500&q=80') center/cover}
+.hero div{max-width:650px}.hero h1{font-size:clamp(34px,5vw,55px);margin:15px 0}.hero p{line-height:1.7;margin-bottom:20px}
+main{width:92%;max-width:1300px;margin:35px auto}
+.heading{margin-bottom:20px}.heading h2{font-size:29px;color:#12472f;margin-bottom:8px}.heading p{color:#647168}
+.search{width:100%;padding:14px;border:1px solid #d7e2d5;border-radius:10px;margin:15px 0;background:white;font-size:15px}
+.categories{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:22px}
+.cat{background:white;border:1px solid #d8e3d6;color:#24523a;border-radius:25px}.cat.active{background:#176b45;color:white}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.product{background:white;border:1px solid #e3eae1;border-radius:15px;overflow:hidden;box-shadow:0 4px 14px #123d2c08}
+.product img{width:100%;height:190px;object-fit:cover;background:#e5ebe2;display:block}
+.pbody{padding:14px}.badge{display:inline-block;background:#e6f4e8;color:#176b45;padding:5px 9px;border-radius:20px;font-size:11px;margin-bottom:9px}
+.product h3{font-size:18px;margin-bottom:8px}
+.desc{font-size:13px;line-height:1.5;color:#6b766d;min-height:39px}
+.price{font-size:21px;color:#176b45;font-weight:800;margin:12px 0 5px}
+.unit{font-size:12px;color:#777;font-weight:normal}
+.stock{font-size:12px;color:#247443;margin:8px 0 12px}
+.actions{display:flex;gap:8px}.actions button{flex:1;padding:10px 6px;font-size:12px}
+.details{background:#edf3eb;color:#24543a}
+.panel{background:white;padding:23px;border-radius:15px;border:1px solid #e3eae1;margin-top:22px}
+.cartrow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid #edf0eb}
+.cartrow small{display:block;color:#777;margin-top:5px}
+.qty{display:flex;align-items:center;gap:10px}.qty button{padding:6px 10px;background:#e8f3e8;color:#176b45}
+.total{display:flex;justify-content:space-between;font-size:21px;font-weight:bold;margin:20px 0}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field label{display:block;font-size:13px;font-weight:bold;margin-bottom:7px}
+.field input,.field textarea,.field select{width:100%;padding:12px;border:1px solid #d8e2d6;border-radius:9px;background:white}
+.field textarea{min-height:85px}
+.field.full{grid-column:1/-1}
+#detailBox{display:none;position:fixed;inset:0;background:#0009;z-index:10;align-items:center;justify-content:center;padding:16px}
+.modal{background:white;width:100%;max-width:750px;max-height:90vh;overflow:auto;border-radius:17px;padding:20px}
+.modal img{width:100%;height:250px;object-fit:cover;border-radius:12px;margin:12px 0}
+.modal-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.detail-list{line-height:1.9;color:#4b5c4f;margin:12px 0}
+footer{background:#123d2c;color:white;padding:30px 5%;margin-top:45px;line-height:1.8}
+footer p{color:#d5e4d7;font-size:13px}
+@media(max-width:950px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.product img{height:160px}}
+@media(max-width:650px){nav{width:100%}.hero{padding:25px;min-height:280px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.product img{height:135px}.pbody{padding:10px}.product h3{font-size:15px}.desc{font-size:12px}.price{font-size:17px}.actions{flex-direction:column}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.heading h2{font-size:24px}}
+@media(max-width:370px){.grid{grid-template-columns:1fr}.product img{height:200px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">🌱 Gram<span>Bazaar</span></div>
+  <nav><a href="#home">Home</a><a href="#products">Products</a><a href="#cart">My Cart</a><a href="#about">About</a></nav>
+  <button class="orange" onclick="document.querySelector('#cart').scrollIntoView({behavior:'smooth'})">🛒 Cart <span id="count">0</span></button>
+</header>
+
+<section class="hero" id="home">
+  <div>
+    <span>🌾 Your Local Online Market</span>
+    <h1>गाँव का बाजार,<br>अब आपके मोबाइल पर!</h1>
+    <p>Rice, Wheat, Furniture, Construction Material, Paint, Plants, Vegetables और रोजमर्रा का सामान — एक ही जगह।</p>
+    <button class="orange" onclick="document.querySelector('#products').scrollIntoView({behavior:'smooth'})">Shop Products →</button>
+  </div>
+</section>
+
+<main>
+  <section id="products">
+    <div class="heading"><h2>🛍️ All Products</h2><p>हर सामान की फोटो और पूरी जानकारी देखें।</p></div>
+    <input class="search" id="search" placeholder="🔍 सामान खोजें: Rice, Wheat, Table..." oninput="renderProducts()">
+    <div class="categories" id="categories"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="cart" class="panel">
+    <div class="heading"><h2>🛒 आपका Cart</h2><p>सामान की मात्रा बदलें और कुल कीमत देखें।</p></div>
+    <div id="cartItems">अभी कार्ट खाली है।</div>
+    <div class="total"><span>Total</span><span id="total">₹0</span></div>
+  </section>
+
+  <section class="panel">
+    <div class="heading"><h2>📦 Customer Details</h2><p>WhatsApp पर ऑर्डर भेजने के लिए जानकारी भरें।</p></div>
+    <form id="orderForm" class="formgrid">
+      <div class="field"><label for="name">पूरा नाम *</label><input id="name" required placeholder="आपका नाम"></div>
+      <div class="field"><label for="phone">मोबाइल नंबर *</label><input id="phone" required pattern="[0-9]{10}" maxlength="10" placeholder="10 अंकों का नंबर"></div>
+      <div class="field full"><label for="address">पूरा पता *</label><textarea id="address" required placeholder="गाँव, शहर, पिन कोड"></textarea></div>
+      <div class="field"><label for="payment">Payment Method</label><select id="payment"><option>Cash on Delivery</option><option>UPI - विक्रेता से पुष्टि करें</option></select></div>
+      <div class="field"><label for="note">Extra Details</label><input id="note" placeholder="डिलीवरी या अन्य जानकारी"></div>
+      <div class="field full"><button class="green" style="width:100%;padding:14px" type="submit">📲 WhatsApp पर Order भेजें</button></div>
+    </form>
+    <p style="font-size:12px;color:#777;margin-top:12px">कीमतें उदाहरण के लिए हैं। ऑर्डर से पहले विक्रेता से सही कीमत और उपलब्धता की पुष्टि करें।</p>
+  </section>
+</main>
+
+<div id="detailBox" onclick="if(event.target===this)closeDetails()">
+  <div class="modal">
+    <div class="modal-top"><h2 id="detailTitle">Product Details</h2><button class="details" onclick="closeDetails()">✕ Close</button></div>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<footer id="about">
+  <div class="logo" style="color:white">🌱 Gram<span>Bazaar</span></div>
+  <p>आपका अपना ऑनलाइन बाजार — गाँव और शहर के सामान के लिए।</p>
+  <p>Website created by <b>Raj Kumar Nayak</b> | Class 9th</p>
+  <p>© <span id="year"></span> GramBazaar. School project.</p>
+</footer>
+
+<script>
+// Seller's WhatsApp number: country code + number, without + or spaces.
+const SELLER_WHATSAPP = "919876543210";
+
+const products = [
+ {id:1,name:"बासमती चावल",category:"अनाज",price:90,unit:"kg",stock:"उपलब्ध",brand:"Local Supplier",image:"https://images.unsplash.com/photo-1516684732162-798a0062be99?auto=format&fit=crop&w=700&q=80",desc:"लंबे दाने वाला चावल, रोजमर्रा के खाने और खास व्यंजनों के लिए।",spec:"पैकिंग: विक्रेता से पूछें | उपयोग: भोजन",origin:"स्थानीय बाजार"},
+ {id:2,name:"गेहूँ",category:"अनाज",price:32,unit:"kg",stock:"उपलब्ध",brand:"Local Farmer",image:"https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=700&q=80",desc:"रोटी, आटा और घरेलू उपयोग के लिए गेहूँ।",spec:"पैकिंग: वजन के अनुसार | उपयोग: आटा बनाना",origin:"स्थानीय किसान"},
+ {id:3,name:"चना दाल",category:"अनाज",price:85,unit:"kg",stock:"उपलब्ध",brand:"GramBazaar",image:"https://images.unsplash.com/photo-1515543904379-3d757afe72e4?auto=format&fit=crop&w=700&q=80",desc:"रसोई में रोजाना उपयोग की जाने वाली दाल।",spec:"पैकिंग: वजन के अनुसार | उपयोग: भोजन",origin:"स्थानीय बाजार"},
+ {id:4,name:"लकड़ी की टेबल",category:"फर्नीचर",price:1800,unit:"piece",stock:"ऑर्डर पर",brand:"Local Carpenter",image:"https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?auto=format&fit=crop&w=700&q=80",desc:"घर, पढ़ाई और ऑफिस में उपयोग के लिए टेबल।",spec:"साइज: विक्रेता से पुष्टि करें | सामग्री: लकड़ी",origin:"स्थानीय कारीगर"},
+ {id:5,name:"लकड़ी की कुर्सी",category:"फर्नीचर",price:950,unit:"piece",stock:"ऑर्डर पर",brand:"Local Carpenter",image:"https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=700&q=80",desc:"बैठने के लिए लकड़ी की कुर्सी।",spec:"रंग और साइज: उपलब्धता के अनुसार",origin:"स्थानीय कारीगर"},
+ {id:6,name:"सोफा",category:"फर्नीचर",price:8500,unit:"piece",stock:"ऑर्डर पर",brand:"Furniture Seller",image:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=700&q=80",desc:"लिविंग रूम के लिए आरामदायक सोफा।",spec:"साइज: विक्रेता से पूछें | रंग: उपलब्धता के अनुसार",origin:"फर्नीचर बाजार"},
+ {id:7,name:"सीमेंट",category:"निर्माण",price:380,unit:"bag",stock:"उपलब्धता पूछें",brand:"Building Materials",image:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=700&q=80",desc:"मकान और निर्माण कार्य में उपयोग होने वाली सामग्री।",spec:"बैग का वजन और ब्रांड खरीदने से पहले जाँचें",origin:"निर्माण सामग्री दुकान"},
+ {id:8,name:"गारा और रेत",category:"निर्माण",price:700,unit:"load",stock:"उपलब्धता पूछें",brand:"Local Supplier",image:"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=700&q=80",desc:"ईंट लगाने और निर्माण के काम के लिए सामग्री।",spec:"मात्रा, गुणवत्ता और परिवहन शुल्क की पुष्टि करें",origin:"स्थानीय सप्लायर"},
+ {id:9,name:"ईंटें",category:"निर्माण",price:9,unit:"piece",stock:"उपलब्धता पूछें",brand:"Brick Supplier",image:"https://images.unsplash.com/photo-1590725140246-20acdee442be?auto=format&fit=crop&w=700&q=80",desc:"दीवार और भवन निर्माण के लिए ईंटें।",spec:"गुणवत्ता और परिवहन शुल्क पूछें",origin:"स्थानीय सप्लायर"},
+ {id:10,name:"दीवार का पेंट",category:"पेंट",price:650,unit:"litre",stock:"उपलब्ध",brand:"Paint Shop",image:"https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=700&q=80",desc:"घर के अंदर और बाहर की दीवारों के लिए पेंट।",spec:"रंग, ब्रांड, फिनिश और पैक साइज की पुष्टि करें",origin:"स्थानीय पेंट दुकान"},
+ {id:11,name:"छोटे सजावटी पौधे",category:"पौधे",price:60,unit:"piece",stock:"मौसमी उपलब्धता",brand:"Local Nursery",image:"https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=700&q=80",desc:"घर, बालकनी और बगीचे को सजाने के लिए छोटे पौधे।",spec:"गमला शामिल है या नहीं, विक्रेता से पूछें",origin:"स्थानीय नर्सरी"},
+ {id:12,name:"फलदार पौधा",category:"पौधे",price:120,unit:"piece",stock:"मौसमी उपलब्धता",brand:"Local Nursery",image:"https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=700&q=80",desc:"बगीचे में लगाने के लिए फलदार पौधा।",spec:"पौधे की किस्म और उम्र की पुष्टि करें",origin:"स्थानीय नर्सरी"},
+ {id:13,name:"ताजे फल",category:"किराना",price:100,unit:"kg",stock:"मौसमी उपलब्धता",brand:"Fruit Seller",image:"https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=700&q=80",desc:"मौसम के अनुसार मिलने वाले फल।",spec:"फल और कीमत मौसम के अनुसार बदल सकते हैं",origin:"स्थानीय फल बाजार"},
+ {id:14,name:"ताजी सब्जियाँ",category:"किराना",price:40,unit:"kg",stock:"मौसमी उपलब्धता",brand:"Vegetable Seller",image:"https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=700&q=80",desc:"रोजमर्रा के भोजन के लिए सब्जियाँ।",spec:"सामान और भाव रोज बदल सकते हैं",origin:"स्थानीय सब्जी बाजार"},
+ {id:15,name:"लकड़ी",category:"अन्य",price:500,unit:"lot",stock:"उपलब्धता पूछें",brand:"Wood Supplier",image:"https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=700&q=80",desc:"मरम्मत और कारीगरी के लिए लकड़ी।",spec:"प्रकार, आकार, मात्रा और कानूनी स्रोत की पुष्टि करें",origin:"स्थानीय सप्लायर"},
+ {id:16,name:"घरेलू सामान",category:"अन्य",price:150,unit:"set",stock:"उपलब्ध",brand:"Local Shop",image:"https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=700&q=80",desc:"घर में काम आने वाले उपयोगी सामान।",spec:"कौन-कौन सी चीजें सेट में हैं, विक्रेता से पूछें",origin:"स्थानीय बाजार"}
+];
+
+let category="सभी";
+let cart={};
+const categories=["सभी",...new Set(products.map(p=>p.category))];
+
+function renderCategories(){
+ document.getElementById("categories").innerHTML=categories.map(c=>
+ `<button class="cat ${category===c?'active':''}" onclick="setCategory('${c}')">${c}</button>`).join("");
+}
+function setCategory(c){category=c;renderCategories();renderProducts()}
+function renderProducts(){
+ const q=document.getElementById("search").value.toLowerCase().trim();
+ const list=products.filter(p=>(category==="सभी"||p.category===category)&&
+ (p.name+" "+p.category+" "+p.desc+" "+p.brand).toLowerCase().includes(q));
+ document.getElementById("grid").innerHTML=list.length?list.map(p=>`
+ <article class="product">
+  <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=700&q=80'">
+  <div class="pbody">
+   <span class="badge">${p.category}</span><h3>${p.name}</h3>
+   <p class="desc">${p.desc}</p>
+   <div class="price">₹${p.price.toLocaleString("en-IN")} <span class="unit">/ ${p.unit}</span></div>
+   <p class="stock">● ${p.stock}</p>
+   <div class="actions">
+    <button class="details" onclick="showDetails(${p.id})">Details</button>
+    <button class="green" onclick="add(${p.id})">＋ Add</button>
+   </div>
+  </div>
+ </article>`).join(""):'<p>कोई सामान नहीं मिला।</p>';
+}
+function showDetails(id){
+ const p=products.find(x=>x.id===id);
+ document.getElementById("detailTitle").textContent=p.name;
+ document.getElementById("detailContent").innerHTML=`
+ <img src="${p.image}" alt="${p.name}">
+ <span class="badge">${p.category}</span>
+ <div class="price">₹${p.price.toLocaleString("en-IN")} / ${p.unit}</div>
+ <div class="detail-list">
+ <b>Product Name:</b> ${p.name}<br>
+ <b>Category:</b> ${p.category}<br>
+ <b>Description:</b> ${p.desc}<br>
+ <b>Specifications:</b> ${p.spec}<br>
+ <b>Supplier:</b> ${p.brand}<br>
+ <b>Origin:</b> ${p.origin}<br>
+ <b>Availability:</b> ${p.stock}<br>
+ <b>Unit:</b> ${p.unit}<br>
+ <b>Price:</b> ₹${p.price.toLocaleString("en-IN")} per ${p.unit}
+ </div>
+ <button class="green" onclick="add(${p.id});closeDetails();document.querySelector('#cart').scrollIntoView({behavior:'smooth'})">Add to Cart</button>`;
+ document.getElementById("detailBox").style.display="flex";
+}
+function closeDetails(){document.getElementById("detailBox").style.display="none"}
+function add(id){cart[id]=(cart[id]||0)+1;renderCart()}
+function changeQty(id,n){cart[id]=(cart[id]||0)+n;if(cart[id]<=0)delete cart[id];renderCart()}
+function renderCart(){
+ const ids=Object.keys(cart);
+ document.getElementById("count").textContent=ids.reduce((s,id)=>s+cart[id],0);
+ document.getElementById("cartItems").innerHTML=ids.length?ids.map(id=>{
+  const p=products.find(x=>x.id===Number(id));
+  return `<div class="cartrow"><div><b>${p.name}</b><small>₹${p.price} / ${p.unit}</small></div><div class="qty"><button onclick="changeQty(${p.id},-1)">−</button><b>${cart[id]}</b><button onclick="changeQty(${p.id},1)">+</button></div></div>`;
+ }).join(""):"अभी कार्ट खाली है।";
+ const total=ids.reduce((s,id)=>s+products.find(p=>p.id===Number(id)).price*cart[id],0);
+ document.getElementById("total").textContent="₹"+total.toLocaleString("en-IN");
+}
+document.getElementById("orderForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const ids=Object.keys(cart);
+ if(!ids.length){alert("पहले कार्ट में सामान जोड़ें।");return}
+ if(SELLER_WHATSAPP==="919876543210"){alert("कृपया SELLER_WHATSAPP में अपना असली विक्रेता नंबर डालें।");return}
+ const total=ids.reduce((s,id)=>s+products.find(p=>p.id===Number(id)).price*cart[id],0);
+ const items=ids.map(id=>{const p=products.find(x=>x.id===Number(id));return `${p.name} x ${cart[id]} ${p.unit} = ₹${p.price*cart[id]}`});
+ const msg=`*GramBazaar Order*\nName: ${document.getElementById("name").value}\nPhone: ${document.getElementById("phone").value}\nAddress: ${document.getElementById("address").value}\n\n*Products:*\n${items.join("\n")}\n\n*Total: ₹${total}*\nPayment: ${document.getElementById("payment").value}\nExtra: ${document.getElementById("note").value}\n\nPlease confirm final price, stock and delivery.`;
+ window.open("https://wa.me/"+SELLER_WHATSAPP+"?text="+encodeURIComponent(msg),"_blank");
+});
+document.getElementById("year").textContent=new Date().getFullYear();
+renderCategories();renderProducts();renderCart();
+</script>
+</body>
+</html>
